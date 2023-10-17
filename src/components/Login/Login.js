@@ -1,8 +1,9 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import AuthContext from "../Store/authContext";
 const emailReducer = (state, action) => {
   if(action.type === 'USER_INPUT'){
     return {value : action.val , isValid : action.val.includes('@')};
@@ -21,7 +22,7 @@ const passwordReducer = (state , action)=>{
   }
   return { value : '' , isValid : false};
 }
-const Login = (props) => {
+const Login = () => {
   // const [enteredEmail, setEnteredEmail] = useState("");
   // const [emailIsValid, setEmailIsValid] = useState();
   const [enteredCollegeName, setEnteredCollegeName] = useState("");
@@ -37,7 +38,7 @@ const Login = (props) => {
     value: "",
     isValide: null,
   });
-
+ const ctx =  useContext(AuthContext);
    useEffect(()=>{
     const identifier = setTimeout(() => {
       console.log("checking the form validity");
@@ -90,7 +91,7 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value,passState.value, enteredCollegeName);
+    ctx.onLogin(emailState.value,passState.value, enteredCollegeName);
   };
 
   return (
